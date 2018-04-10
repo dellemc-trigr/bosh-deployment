@@ -31,16 +31,29 @@ disk_types:
   disk_size: 50_000
 
 networks:
+- name: public
+  type: vip
+  subnets:
+  - cloud_properties:
+      name: ((external_network_name))
+    dns: [((external_dns))]
+    gateway: ((external_gw))
+    reserved: [((external_reserved_ips))]
+    az: z1
+    range: ((external_cidr))
+    static: [((external_static_ips))]
+
 - name: default
   type: manual
   subnets:
   - range: ((internal_cidr))
+    reserved: [((internal_reserved_ips))]
+    az: z1
     gateway: ((internal_gw))
-    azs: [z1, z2, z3]
-    dns: [8.8.8.8]
-    reserved: []
+    dns: [((internal_dns))]
     cloud_properties:
       name: ((network_name))
+    static: [((internal_static_ips))]
 
 compilation:
   workers: 5

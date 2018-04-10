@@ -4,7 +4,13 @@
   path: /networks/-
   value:
     name: public
-    type: vip
+    type: manual
+    subnets:
+    - range: ((external_cidr))
+      gateway: ((external_gw))
+      dns: [((external_dns))]
+      cloud_properties:
+        name: ((external_network_name))
 
 - type: replace
   path: /instance_groups/name=bosh/networks/0/default?
